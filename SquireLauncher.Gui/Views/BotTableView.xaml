@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="SquireLauncher.Gui.Views.BotTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="userControl">
+    <Grid Loaded="Grid_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Row for the textboxes and button -->
+            <RowDefinition Height="*"/>
+            <!-- Row for the data grid -->
+        </Grid.RowDefinitions>
+
+        <!-- Textboxes and button -->
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Email" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                <TextBox x:Name="Email" Width="100" Margin="0 0 5 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Username" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                <TextBox x:Name="Username" Width="100" Margin="0 0 5 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Password" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                <TextBox x:Name="Password" Width="100" Margin="0 0 5 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Farm" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                <ComboBox Name="FarmBox" Grid.Row="0" Margin="10" Width="200" 
+                          ItemsSource="{Binding ElementName=userControl, Path=LoadedFarms}" 
+                          SelectedItem="{Binding ElementName=userControl, Path=selectedFarm}" DisplayMemberPath="Name"/>
+            </StackPanel>
+            <Button Content="Add" Width="50" Margin="10 0 0 0" Click="Button_AddBot"/>
+        </StackPanel>
+
+        <!-- Data grid -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding ElementName=userControl, Path=LoadedBots}" 
+                  AutoGenerateColumns="false"
+                  HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch"                  
+                  ColumnWidth="*"
+                  IsReadOnly="true"
+                  SelectedCellsChanged="DataGrid_SelectedCellsChanged"
+                  KeyUp="BotGrid_KeyUp"
+                  x:Name="BotGrid">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="*"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn Header="Farm" Binding="{Binding Farm.Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="SquireLauncher.Gui.Views.LauncherView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="userControl">
+    <Grid Loaded="Grid_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- Left side -->
+            <ColumnDefinition Width="*"/>
+            <!-- Right side -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Left side - Launch Farm form -->
+        <Grid Grid.Column="0" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Title row -->
+                <RowDefinition Height="Auto"/>
+                <!-- ComboBox row -->
+                <RowDefinition Height="Auto"/>
+                <!-- Button row -->
+            </Grid.RowDefinitions>
+
+            <!-- Launch Farm form -->
+            <GroupBox Grid.Row="0" Header="Launch Farm">
+                <ComboBox Grid.Row="0" Margin="10" Width="200" 
+                          ItemsSource="{Binding ElementName=userControl, Path=LoadedFarms}" 
+                          SelectedItem="{Binding ElementName=userControl, Path=selectedFarm}" DisplayMemberPath="Username"/>
+            </GroupBox>
+
+            <!-- Launch button -->
+            <Button Grid.Row="1" Margin="10" Content="Launch" Width="100"/>
+        </Grid>
+
+        <!-- Right side - Launch Account form -->
+        <Grid Grid.Column="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Title row -->
+                <RowDefinition Height="Auto"/>
+                <!-- ComboBox row -->
+                <RowDefinition Height="Auto"/>
+                <!-- Button row -->
+            </Grid.RowDefinitions>
+
+            <!-- Launch Account form -->
+            <GroupBox Grid.Row="0" Header="Launch Account">
+                <!-- Account selection ComboBox -->
+                <ComboBox Grid.Row="0" Margin="10" Width="200" 
+                          ItemsSource="{Binding ElementName=userControl, Path=LoadedBots}" 
+                          SelectedItem="{Binding ElementName=userControl, Path=SelectedBot}" DisplayMemberPath="Username"/>
+            </GroupBox>
+
+            <!-- Launch button -->
+            <Button Grid.Row="1" Margin="10" Content="Launch" Width="100"/>
+        </Grid>
+    </Grid>
+</UserControl>
