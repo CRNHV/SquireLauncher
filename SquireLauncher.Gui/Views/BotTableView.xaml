@@ -24,11 +24,11 @@
                 <TextBlock Text="Password" VerticalAlignment="Center" Margin="0 0 5 0"/>
                 <TextBox x:Name="Password" Width="100" Margin="0 0 5 0"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" MaxHeight="75">
                 <TextBlock Text="Farm" VerticalAlignment="Center" Margin="0 0 5 0"/>
-                <ComboBox Name="FarmBox" Grid.Row="0" Margin="10" Width="200" 
+                <ComboBox Name="FarmBox" Grid.Row="0" Margin="5" Width="200" 
                           ItemsSource="{Binding ElementName=userControl, Path=LoadedFarms}" 
-                          SelectedItem="{Binding ElementName=userControl, Path=selectedFarm}" DisplayMemberPath="Name"/>
+                          SelectedItem="{Binding ElementName=userControl, Path=SelectedFarm}" DisplayMemberPath="Name"/>
             </StackPanel>
             <Button Content="Add" Width="50" Margin="10 0 0 0" Click="Button_AddBot"/>
         </StackPanel>

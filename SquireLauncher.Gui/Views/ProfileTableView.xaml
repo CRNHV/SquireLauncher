@@ -9,17 +9,6 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Path" Binding="{Binding Path}"/>
-                <!-- Dropdown column -->
-                <DataGridTemplateColumn Header="Farm">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox Grid.Row="0" Margin="10" Width="200" 
-                                      ItemsSource="{Binding ElementName=userControl, Path=AvaillableFarms}" 
-                                      SelectedItem="{Binding ElementName=userControl, Path=selectedFarm}" DisplayMemberPath="Name"/>                            
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <!-- End of dropdown column -->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

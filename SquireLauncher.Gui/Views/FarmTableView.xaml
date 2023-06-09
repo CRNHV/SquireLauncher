@@ -25,11 +25,23 @@
                   ColumnWidth="*"
                   IsReadOnly="true"
                   x:Name="FarmGrid"
-                  AutoGenerateColumns="false">
+                  AutoGenerateColumns="false"
+                  KeyUp="FarmGrid_KeyUp">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn Header="Count" Binding="{Binding Bots.Count}" Width="*"/>
+                <DataGridTextColumn Header="Profile name" Binding="{Binding ProfileName}" Width="*"/>
+                <DataGridTemplateColumn Header="Profile">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Grid.Row="0" Margin="5" Width="200" 
+                                      ItemsSource="{Binding ElementName=userControl, Path=AvaillableProfiles}" 
+                                      SelectedItem="{Binding ElementName=userControl, Path=SelectedProfile}" DisplayMemberPath="Name"
+                                      SelectionChanged="ComboBox_SelectionChanged"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

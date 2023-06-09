@@ -17,7 +17,7 @@ namespace SquireLauncher.Gui.Views
     public partial class ProfileTableView : UserControl
     {
         private readonly BotDbContext context;
-        private Farm selectedFarm;
+
 
         public ProfileTableView(BotDbContext context)
         {
@@ -25,45 +25,13 @@ namespace SquireLauncher.Gui.Views
             this.context = context;
         }
 
-        public ObservableCollection<Farm> AvaillableFarms { get; } = new ObservableCollection<Farm>();
         public ObservableCollection<Profile> Profiles { get; } = new ObservableCollection<Profile>();
+
 
         private async void Grid_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            var noneFarm = context.Farms.Where(x => x.Name == "NONE").First();
-
-            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var profiles2Path = $".openosrs/profiles2";
-
-            var filesInProfilesDirectory = Directory.GetFiles(Path.Combine(userProfile, profiles2Path));
-            for (int i = 0; i < filesInProfilesDirectory.Length; i++)
-            {
-                var profilePath = filesInProfilesDirectory[i];
-                var profileFileName = Path.GetFileName(profilePath);
-
-                if (profileFileName.StartsWith("$") || !profileFileName.EndsWith("properties"))
-                {
-                    continue;
-                }
-
-                if (!context.Profiles.Any(p => p.Path == profilePath))
-                {
-                    context.Profiles.Add(new Profile()
-                    {
-                        Name = profileFileName.Split("-")[0],
-                        Path = profilePath,
-                        Farm = noneFarm
-                    });
-                }
-            }
-
-            if (context.ChangeTracker.HasChanges())
-            {
-                context.SaveChanges();
-            }
-
+            await LoadProfilesFromDisk();
             await LoadProfilesFromDb();
-            await LoadFarmsFromDb();
         }
 
         private async Task LoadProfilesFromDb()
@@ -75,41 +43,47 @@ namespace SquireLauncher.Gui.Views
             }
         }
 
-        private async Task LoadFarmsFromDb()
+        private async Task LoadProfilesFromDisk()
         {
-            AvaillableFarms.Clear();
-            foreach (var farm in context.Farms)
+            var noneFarm = context.Farms.Where(x => x.Name == "NONE").First();
+
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var profiles2Path = $".openosrs/profiles2";
+
+            var filesInProfilesDirectory = Directory.GetFiles(Path.Combine(userProfile, profiles2Path));
+            for (int i = 0; i < filesInProfilesDirectory.Length; i++)
             {
-                AvaillableFarms.Add(farm);
+                await ProcessDirectory(filesInProfilesDirectory[i]);
+            }
+
+            if (context.ChangeTracker.HasChanges())
+            {
+                context.SaveChanges();
             }
         }
 
-        private async void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async Task ProcessDirectory(string profilePath)
         {
-            var selectedProfile = (Profile)ProfileGrid.SelectedItem;
-            if (selectedProfile == null)
+            var profileFileName = Path.GetFileName(profilePath);
+
+            if (profileFileName.StartsWith("$") || !profileFileName.EndsWith("properties"))
             {
                 return;
             }
 
-            Farm? selectedFarm = (Farm)e.AddedItems[0];
-            var dbProfile = context.Profiles.FirstOrDefault(x => x.Id == selectedProfile.Id);
-            if (dbProfile == null || selectedFarm == null)
+            if (profilePath.Contains("choev"))
             {
-                return;
+                profilePath = profilePath.Replace("choev", "squire");
             }
 
-            if (context.Profiles.Any(x => x.Farm == selectedFarm && selectedFarm.Name != "NONE"))
+            if (!context.Profiles.Any(p => p.Path == profilePath))
             {
-                MessageBox.Show("There already is a Farm associated with that profile");
-                LoadProfilesFromDb(); // Dirty
-                return;
+                context.Profiles.Add(new Profile()
+                {
+                    Name = profileFileName.Split("-")[0],
+                    Path = profilePath,
+                });
             }
-
-            dbProfile.Farm = selectedFarm;
-            context.Update(dbProfile);
-            await context.SaveChangesAsync();
-
         }
     }
 }
