@@ -12,8 +12,8 @@ public class BotDbContext : DbContext
 
     public DbSet<Bot> Bots { get; set; }
     public DbSet<Profile> Profiles { get; set; }
-
     public DbSet<Farm> Farms { get; set; }
+    public DbSet<Settings> Settings { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
