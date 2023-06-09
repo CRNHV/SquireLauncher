@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Microsoft.Extensions.Logging;
 using SquireLauncher.Gui.Views;
 
 namespace SquireLauncher.Gui;
@@ -9,11 +10,13 @@ public partial class MainWindow : Window
     private readonly BotTableView _botTableView;
     private readonly LauncherView _launchView;
     private readonly FarmTableView _farmTableView;
+    private readonly ILogger<MainWindow> _logger;
 
     public MainWindow(ProfileTableView profileTableView,
                       BotTableView botTableView,
                       LauncherView launchView,
-                      FarmTableView farmTableView)
+                      FarmTableView farmTableView,
+                      ILogger<MainWindow> logger)
     {
         InitializeComponent();
 
@@ -23,6 +26,7 @@ public partial class MainWindow : Window
         _botTableView = botTableView;
         _launchView = launchView;
         _farmTableView = farmTableView;
+        _logger = logger;
     }
 
     private void ProfilesButton_Click(object sender, RoutedEventArgs e)
