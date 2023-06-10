@@ -15,7 +15,7 @@
             <Button Content="Profiles" Margin="10" Click="ProfilesButton_Click" />
             <Button Content="Bots" Margin="10" Click="BotsButton_Click"/>
             <Button Content="Farms" Margin="10" Click="FarmButton_Click"/>
-            <Button Content="Launch" Margin="10" Click="LauncherButton_Click"/>                   
+            <Button Content="Launch" Margin="10" Click="LauncherButton_Click"/>
         </StackPanel>
 
         <!-- Content View -->

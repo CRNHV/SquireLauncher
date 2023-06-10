@@ -75,6 +75,7 @@ public partial class FarmTableView : UserControl
         dbFarm.Profile = selectedProfile;
         _context.Update(dbFarm);
         await _context.SaveChangesAsync();
+        SelectedProfile = null;
         LoadFarms();
     }
 
